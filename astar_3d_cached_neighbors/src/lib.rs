@@ -109,6 +109,28 @@ pub fn create_neighbor_idx_cache(
     neighbor_idx_cache
 }
 
+pub fn update_neighbor_idx_cache(
+    grid: &Vec<u32>,
+    dimensions: (u32, u32),
+    up_stairs_idxs: &HashSet<u32>,
+    down_stairs_idxs: &HashSet<u32>,
+    neighbors: &mut Vec<Vec<u32>>,
+    update_idxs: &Vec<u32>,
+) {
+    for idx in update_idxs {
+        for neighbor_idx in get_neighbor_idxs(
+            *idx,
+            grid,
+            dimensions,
+            up_stairs_idxs,
+            down_stairs_idxs,
+        ) {
+            neighbors[neighbor_idx as usize] =
+                get_neighbor_idxs(neighbor_idx, grid, dimensions, up_stairs_idxs, down_stairs_idxs);
+        }
+    }
+}
+
 #[inline(always)]
 fn manhattan(x1: i32, y1: i32, depth1: i32, x2: i32, y2: i32, depth2: i32) -> u32 {
     ((x1 - x2).abs() + (y1 - y2).abs() + (depth1 - depth2).abs()) as u32
