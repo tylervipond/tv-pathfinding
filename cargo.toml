@@ -1,0 +1,8 @@
+[workspace]
+
+members = [
+    "astar_2d",
+    "astar_3d",
+    "astar_2d_cached_neighbors",
+    "astar_3d_cached_neighbors"
+]
