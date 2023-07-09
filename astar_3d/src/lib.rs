@@ -112,9 +112,11 @@ pub fn find_path(
         cost: 0,
         position: start,
     });
+    let mut found = false;
     while !frontier.is_empty() {
         let current_position = frontier.pop().unwrap().position;
         if current_position == end {
+            found = true;
             break;
         }
         let current_x = current_position % width;
@@ -163,16 +165,18 @@ pub fn find_path(
             }
         }
     }
-    let mut last = end;
     let mut path: Vec<u32> = Vec::new();
-    loop {
-        path.push(last);
-        last = came_from[last as usize];
-        if last == start {
-            break;
+    if found {
+        let mut last = end;
+        loop {
+            path.push(last);
+            last = came_from[last as usize];
+            if last == start {
+                break;
+            }
         }
+        path.reverse();
     }
-    path.reverse();
     path
 }
 
@@ -225,6 +229,25 @@ mod tests {
         let dimensions = (7, 7);
         let path = find_path(0, 48, &grid, dimensions, &up_stairs_idxs, &down_stairs_idxs);
         assert_eq!(path, vec![8, 15, 22, 29, 37, 45, 46, 47, 48]);
+    }
+
+    #[test]
+    fn it_returns_no_path_if_path_impossible() {
+        #[rustfmt::skip]
+        let grid = vec![
+            1, 1, 0, 1, 1, 1, 1,
+            1, 1, 0, 1, 1, 0, 1,
+            0, 0, 0, 0, 1, 0, 1,
+            1, 1, 0, 1, 1, 0, 1,
+            1, 1, 0, 0, 0, 0, 1,
+            1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1,
+        ];
+        let up_stairs_idxs = HashSet::new();
+        let down_stairs_idxs = HashSet::new();
+        let dimensions = (7, 7);
+        let path = find_path(0, 48, &grid, dimensions, &up_stairs_idxs, &down_stairs_idxs);
+        assert_eq!(path, vec![]);
     }
 
     #[test]
