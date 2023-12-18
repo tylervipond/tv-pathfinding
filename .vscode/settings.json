@@ -1,0 +1,5 @@
+{
+    "rust-analyzer.linkedProjects": [
+        "./astar_3d_cached_neighbors_dynamic/Cargo.toml"
+    ]
+}

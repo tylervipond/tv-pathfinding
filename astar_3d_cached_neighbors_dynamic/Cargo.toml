@@ -1,5 +1,5 @@
 [package]
-name = "astar_2d_cached_neighbors"
+name = "astar_3d_cached_neighbors_dynamic"
 version = "0.3.0"
 edition = "2021"
 
