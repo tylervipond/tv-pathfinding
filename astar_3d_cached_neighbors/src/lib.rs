@@ -2,7 +2,9 @@
 extern crate test;
 
 use std::cmp::Ordering;
-use std::collections::{BinaryHeap, HashSet};
+use std::collections::BinaryHeap;
+
+use hashbrown::HashSet;
 
 #[derive(Copy, Clone, Eq, PartialEq)]
 struct FrontierItem {
@@ -74,10 +76,10 @@ pub fn get_neighbor_idxs(
     }
     let mut vertical_neighbors = vec![];
     for neighbor in &neighbors {
-        if up_stairs_idxs.contains(&neighbor) {
+        if up_stairs_idxs.contains(neighbor) {
             vertical_neighbors.push(neighbor + tile_count)
         }
-        if down_stairs_idxs.contains(&neighbor) {
+        if down_stairs_idxs.contains(neighbor) {
             vertical_neighbors.push(neighbor - tile_count)
         }
     }
@@ -118,15 +120,16 @@ pub fn update_neighbor_idx_cache(
     update_idxs: &Vec<u32>,
 ) {
     for idx in update_idxs {
-        for neighbor_idx in get_neighbor_idxs(
-            *idx,
-            grid,
-            dimensions,
-            up_stairs_idxs,
-            down_stairs_idxs,
-        ) {
-            neighbors[neighbor_idx as usize] =
-                get_neighbor_idxs(neighbor_idx, grid, dimensions, up_stairs_idxs, down_stairs_idxs);
+        for neighbor_idx in
+            get_neighbor_idxs(*idx, grid, dimensions, up_stairs_idxs, down_stairs_idxs)
+        {
+            neighbors[neighbor_idx as usize] = get_neighbor_idxs(
+                neighbor_idx,
+                grid,
+                dimensions,
+                up_stairs_idxs,
+                down_stairs_idxs,
+            );
         }
     }
 }
@@ -156,7 +159,7 @@ pub fn find_path(
         cost: 0,
         position: start,
     });
-    let  mut found = false;
+    let mut found = false;
     while !frontier.is_empty() {
         let current_idx = frontier.pop().unwrap().position;
         if current_idx == end {

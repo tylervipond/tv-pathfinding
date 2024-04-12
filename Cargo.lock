@@ -41,6 +41,9 @@ version = "0.4.0"
 [[package]]
 name = "astar_3d_cached_neighbors"
 version = "0.4.0"
+dependencies = [
+ "hashbrown",
+]
 
 [[package]]
 name = "astar_3d_cached_neighbors_dynamic"
