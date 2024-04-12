@@ -1,6 +1,6 @@
 [package]
 name = "astar-2d"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["tylervipond"]
 edition = "2021"
 

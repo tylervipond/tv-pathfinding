@@ -2,7 +2,9 @@
 extern crate test;
 
 use std::cmp::Ordering;
-use std::collections::{BinaryHeap, HashSet};
+use std::collections::BinaryHeap;
+
+use hashbrown::HashSet;
 
 #[derive(Copy, Clone, Eq, PartialEq)]
 struct FrontierItem {
@@ -74,10 +76,10 @@ pub fn get_neighbor_idxs(
     }
     let mut vertical_neighbors = vec![];
     for neighbor in &neighbors {
-        if up_stairs_idxs.contains(&neighbor) {
+        if up_stairs_idxs.contains(neighbor) {
             vertical_neighbors.push(neighbor + tile_count)
         }
-        if down_stairs_idxs.contains(&neighbor) {
+        if down_stairs_idxs.contains(neighbor) {
             vertical_neighbors.push(neighbor - tile_count)
         }
     }
